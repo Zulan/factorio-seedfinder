@@ -30,3 +30,7 @@ Basically there is a loop:
 ## Note from the author
 
 The implementation is completely prototypic. I am currently not firm with lua, so please bear with me - I wanted to share it anyway. The documentation is very rough.
+
+## Acknowledgements
+
+- libs/logger.lua is from the excellent rso-mod: https://forums.factorio.com/viewforum.php?f=79
