@@ -1,5 +1,3 @@
-require "defines"
-
 local logger = require 'libs/logger'
 local l = logger.new_logger()
 
@@ -50,6 +48,11 @@ min_copper = 1600
 box = {{x - x_size, y - y_size}, {x + x_size, y + y_size}}
 zoom_level = 0.11
 save_name = "seed_seeker"
+player_name = "Zulan"
+
+local function player()
+    return game.players[player_name]
+end
 
 local function new_surface()
     if (seed_current >= seed_end) then
@@ -62,21 +65,21 @@ local function new_surface()
     settings['seed'] = seed_current
     
     local surface = game.create_surface('test' .. seed_current, settings)
-    game.player.teleport(pos, surface)
-    game.player.print("Created new surface: " .. surface.name)
+    player().teleport(pos, surface)
+    player().print("Created new surface: " .. surface.name)
     seed_current = seed_current + seed_increment
     return surface
 end
 
 local function check_surface(surface)
-    game.player.print("Checking surface: " .. surface.name)
+    player().print("Checking surface: " .. surface.name)
     local seed = surface.map_gen_settings.seed
     l:log("check seed: " .. seed)
     local copper = count_resources(surface, box, "copper-ore")
     local iron   = count_resources(surface, box, "iron-ore")
     local trees  = count_trees(surface, box)
     local message = string.format("Copper: %05d, Iron: %05d, Trees: %d", copper, iron, trees)
-    game.player.print(message)
+    player().print(message)
     
     if copper > min_copper and iron > min_iron then
         local name = string.format("sr.%07d.%05d.%05d.%05d.png", seed, copper, iron, trees)
@@ -91,19 +94,19 @@ wait_for_tick = false
 local function init()
     initialized = true
 
-    game.always_day = true
     seed_current = seed_base + game.tick
     seed_end = seed_current + seed_chunks
     wait_for_tick = game.tick + seed_chunks
     
-    game.player.print("Initializing @ " .. game.tick .. " waiting util " .. wait_for_tick .. ", seeds from " .. seed_current .. " to " .. seed_end) 
+    player().print("Initializing @ " .. game.tick .. " waiting util " .. wait_for_tick .. ", seeds from " .. seed_current .. " to " .. seed_end) 
 end
 
 local function start()
     wait_for_tick = false
-    game.player.print("Starting @ " .. game.tick .. ", seeds from " .. seed_current .. " to " .. seed_end) 
+    player().print("Starting @ " .. game.tick .. ", seeds from " .. seed_current .. " to " .. seed_end) 
     game.save(save_name)
     surface_current  = new_surface()
+	surface_current.always_day = true
 end
 
 --script.on_init(init)
