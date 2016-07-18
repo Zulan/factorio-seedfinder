@@ -2,15 +2,15 @@ local logger = require 'libs/logger'
 local l = logger.new_logger()
 
 local function count_resources(surface, bb, res_name)
-    entities = surface.find_entities_filtered{area=bb, name=res_name}
-    l:log(res_name .. ": " .. #entities)
-    return #entities
+    entities = surface.count_entities_filtered{area=bb, name=res_name}
+    l:log(res_name .. ": " .. entities)
+    return entities
 end
 
 local function count_trees(surface, bb)
-    entities = surface.find_entities_filtered{area=bb, type="tree"}
-    l:log("trees: " .. #entities)
-    return #entities
+    entities = surface.count_entities_filtered{area=bb, type="tree"}
+    l:log("trees: " .. entities)
+    return entities
 end
 
 local function deepcopy(orig)
@@ -29,6 +29,7 @@ local function deepcopy(orig)
 end
 
 seed_base = 1337001000
+seed_base = 1337100000
 seed_chunks = 100
 seed_increment = 2
 seed_current = nil
@@ -45,13 +46,14 @@ x_size = radius
 y_size = radius
 min_iron = 1600
 min_copper = 1600
+max_trees = 1000
 box = {{x - x_size, y - y_size}, {x + x_size, y + y_size}}
 zoom_level = 0.11
 save_name = "seed_seeker"
 player_name = "Zulan"
 
 local function player()
-    return game.players[player_name]
+    return game.players[1]
 end
 
 local function new_surface()
@@ -77,12 +79,13 @@ local function check_surface(surface)
     l:log("check seed: " .. seed)
     local copper = count_resources(surface, box, "copper-ore")
     local iron   = count_resources(surface, box, "iron-ore")
+	local oil    = count_resources(surface, box, "crude-oil")
     local trees  = count_trees(surface, box)
-    local message = string.format("Copper: %05d, Iron: %05d, Trees: %d", copper, iron, trees)
+    local message = string.format("Copper: %05d, Iron: %05d, Oil: %03d, Trees: %d", copper, iron, oil, trees)
     player().print(message)
     
-    if copper > min_copper and iron > min_iron then
-        local name = string.format("sr.%07d.%05d.%05d.%05d.png", seed, copper, iron, trees)
+    if copper > min_copper and iron > min_iron and trees < max_trees then
+        local name = string.format("sr.s%07d.cu%05d.fe%05d.oil%03d.tree%05d.png", seed, copper, iron, oil, trees)
         game.take_screenshot{resolution={x=1920,y=1080}, zoom=zoom_level, path = name}
     end
     l:dump()
@@ -91,14 +94,14 @@ end
 initialized = false
 wait_for_tick = false
 
-local function init()
+local function init(tick)
     initialized = true
 
     seed_current = seed_base + game.tick
     seed_end = seed_current + seed_chunks
-    wait_for_tick = game.tick + seed_chunks
+    wait_for_tick = tick + seed_chunks
     
-    player().print("Initializing @ " .. game.tick .. " waiting util " .. wait_for_tick .. ", seeds from " .. seed_current .. " to " .. seed_end) 
+    player().print("Initializing @ " .. tick .. " waiting util " .. wait_for_tick .. ", seeds from " .. seed_current .. " to " .. seed_end) 
 end
 
 local function start()
@@ -112,9 +115,9 @@ end
 --script.on_init(init)
 script.on_event(defines.events, function(event)
     if not initialized then
-        init()
+        init(event.tick)
     end
-    if (event.name == defines.events.on_tick) and (wait_for_tick ~= false) and (game.tick >= wait_for_tick) then
+    if (event.name == defines.events.on_tick) and (wait_for_tick ~= false) and (event.tick >= wait_for_tick) then
         start()
     end
 
