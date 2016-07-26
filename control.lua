@@ -28,9 +28,8 @@ local function deepcopy(orig)
     return copy
 end
 
-seed_base = 1337001000
-seed_base = 1337100000
-seed_chunks = 100
+seed_base = 1337300000
+seed_chunks = 32
 seed_increment = 2
 seed_current = nil
 --seed_current = 1762966940
@@ -39,18 +38,21 @@ surface_current = nil
 
 x = 0
 y = 0
-radius = 100
+chunk_size = 32
+count_radius = 160
+scan_chunks = 6
+scan_size = scan_chunks * chunk_size
 pos = {x,y}
-chunk_pos = {4,4}
-x_size = radius
-y_size = radius
+sentry_chunk_pos = {scan_chunks, scan_chunks}
+x_size = count_radius
+y_size = count_radius
 min_iron = 1600
 min_copper = 1600
-max_trees = 1000
-box = {{x - x_size, y - y_size}, {x + x_size, y + y_size}}
-zoom_level = 0.11
+max_trees = 2000
+count_box = {{x - x_size, y - y_size}, {x + x_size, y + y_size}}
+scan_box = {{-scan_size, -scan_size}, {scan_size, scan_size}}
+zoom_level = 0.08
 save_name = "seed_seeker"
-player_name = "Zulan"
 
 local function player()
     return game.players[1]
@@ -68,6 +70,7 @@ local function new_surface()
     
     local surface = game.create_surface('test' .. seed_current, settings)
     player().teleport(pos, surface)
+	player().force.chart(surface, scan_box)
     player().print("Created new surface: " .. surface.name)
     seed_current = seed_current + seed_increment
     return surface
@@ -77,10 +80,10 @@ local function check_surface(surface)
     player().print("Checking surface: " .. surface.name)
     local seed = surface.map_gen_settings.seed
     l:log("check seed: " .. seed)
-    local copper = count_resources(surface, box, "copper-ore")
-    local iron   = count_resources(surface, box, "iron-ore")
-	local oil    = count_resources(surface, box, "crude-oil")
-    local trees  = count_trees(surface, box)
+    local copper = count_resources(surface, count_box, "copper-ore")
+    local iron   = count_resources(surface, count_box, "iron-ore")
+	local oil    = count_resources(surface, count_box, "crude-oil")
+    local trees  = count_trees(surface, count_box)
     local message = string.format("Copper: %05d, Iron: %05d, Oil: %03d, Trees: %d", copper, iron, oil, trees)
     player().print(message)
     
@@ -123,7 +126,8 @@ script.on_event(defines.events, function(event)
 
     if event.name == defines.events.on_chunk_generated then
         if surface_current ~= nil then
-            if surface_current.is_chunk_generated(chunk_pos) then
+		    --player().print("Chunk generated: " .. event.area.left_top.x .. "," .. event.area.left_top.y .. "," .. event.area.right_bottom.x .. "," .. event.area.right_bottom.y)
+            if surface_current.is_chunk_generated(sentry_chunk_pos) then
                 check_surface(surface_current)
                 surface_current = new_surface()
             end
