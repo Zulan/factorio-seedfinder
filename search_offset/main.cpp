@@ -15,9 +15,9 @@ struct coords
         return dx * dx + dy * dy;
     }
     
-    bool operator==(coord other) const
+    bool operator==(coords other) const
     {
-        return x == other.x && y = other.y;
+        return x == other.x && y == other.y;
     }
     
     int32_t x, y;
@@ -34,12 +34,12 @@ coords get_shift(uint32_t seed)
 
 void find_seed(coords target)
 {
-    std::cout << "seeds = {\n"
+    std::cout << "seeds = {\n";
     for (uint32_t seed = 0; seed != -1; seed++)
     {
         auto c = get_shift(seed);
         if (c == target) {
-            std::cout << seed << "\n";
+            std::cout << seed << ",\n";
         }
     }
     std::cout << "}" << std::endl;
