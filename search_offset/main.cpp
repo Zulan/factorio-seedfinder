@@ -8,11 +8,16 @@ struct coords
 {
     coords(int32_t xx, int32_t yy) : x(xx), y(yy) {}
     
-    uint32_t distance_squared(coords other)
+    uint32_t distance_squared(coords other) const
     {
         auto dx = x - other.x;
         auto dy = y - other.y;
         return dx * dx + dy * dy;
+    }
+    
+    bool operator==(coord other) const
+    {
+        return x == other.x && y = other.y;
     }
     
     int32_t x, y;
@@ -29,23 +34,19 @@ coords get_shift(uint32_t seed)
 
 void find_seed(coords target)
 {
-    uint32_t min_dist_square = -1;
+    std::cout << "seeds = {\n"
     for (uint32_t seed = 0; seed != -1; seed++)
     {
         auto c = get_shift(seed);
-        auto ds = c.distance_squared(target);
-        if (ds == 0) {
-            std::cout << "found perfect seed " << seed << std::endl;
-            continue;
-        }
-        if (ds < min_dist_square) {
-            std::cout << "found better seed " << seed << " @ " << c.x << ", " << c.y << std::endl;
-            min_dist_square = ds;
+        if (c == target) {
+            std::cout << seed << "\n";
         }
     }
+    std::cout << "}" << std::endl;
 }
 
-int main()
+int main(int argc, const char** argv)
 {
-    find_seed(coords(2000, 2000));
+    assert(argc == 3);
+    find_seed(coords(atol(argv[1]), atol(argv[2])));
 }
