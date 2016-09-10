@@ -28,7 +28,8 @@ local function deepcopy(orig)
     return copy
 end
 
-seed_base = 1337300000
+-- Use 0 to use seed of initial map
+seed_base = 0
 seed_chunks = 32
 seed_increment = 2
 seed_current = nil
@@ -70,7 +71,7 @@ local function new_surface()
     
     local surface = game.create_surface('test' .. seed_current, settings)
     player().teleport(pos, surface)
-	player().force.chart(surface, scan_box)
+    player().force.chart(surface, scan_box)
     player().print("Created new surface: " .. surface.name)
     seed_current = seed_current + seed_increment
     return surface
@@ -82,7 +83,7 @@ local function check_surface(surface)
     l:log("check seed: " .. seed)
     local copper = count_resources(surface, count_box, "copper-ore")
     local iron   = count_resources(surface, count_box, "iron-ore")
-	local oil    = count_resources(surface, count_box, "crude-oil")
+    local oil    = count_resources(surface, count_box, "crude-oil")
     local trees  = count_trees(surface, count_box)
     local message = string.format("Copper: %05d, Iron: %05d, Oil: %03d, Trees: %d", copper, iron, oil, trees)
     player().print(message)
@@ -100,7 +101,11 @@ wait_for_tick = false
 local function init(tick)
     initialized = true
 
+    if seed_base == 0 then
+        seed_base = game.surfaces['nauvis'].map_gen_settings['seed']
+    end
     seed_current = seed_base + game.tick
+    
     seed_end = seed_current + seed_chunks
     wait_for_tick = tick + seed_chunks
     
@@ -126,7 +131,7 @@ script.on_event(defines.events, function(event)
 
     if event.name == defines.events.on_chunk_generated then
         if surface_current ~= nil then
-		    --player().print("Chunk generated: " .. event.area.left_top.x .. "," .. event.area.left_top.y .. "," .. event.area.right_bottom.x .. "," .. event.area.right_bottom.y)
+            --player().print("Chunk generated: " .. event.area.left_top.x .. "," .. event.area.left_top.y .. "," .. event.area.right_bottom.x .. "," .. event.area.right_bottom.y)
             if surface_current.is_chunk_generated(sentry_chunk_pos) then
                 check_surface(surface_current)
                 surface_current = new_surface()
