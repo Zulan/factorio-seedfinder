@@ -100,6 +100,7 @@ wait_for_tick = false
 
 local function init(tick)
     initialized = true
+    game.speed = 20
 
     if seed_base == 0 then
         seed_base = game.surfaces['nauvis'].map_gen_settings['seed']
