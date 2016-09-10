@@ -1,11 +1,11 @@
 {
   "name": "seedfinder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Seedfinder for Speedruns",
   "author": "Zulan",
-  "homepage": "http://www.zulan.net",
+  "homepage": "https://github.com/Zulan/factorio-seedfinder",
   "contact": "factoriomods@zulan.net",
   "description": "not yet",
   "dependencies": [],
-  "factorio_version": "0.13"
+  "factorio_version": "0.14"
 }
