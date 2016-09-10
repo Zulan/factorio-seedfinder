@@ -14,7 +14,9 @@ The settings you use to start the game initially are the ones used for searching
 ## How it works
 
 Basically the mod creates new surfaces with incremental mapseeds and teleports the player into it.
-It then checks the resource count and if it was deemed to have potential, a screenshot is made.
+It initiates to chart the area around the player.
+Hoever, the chunks are not generated instantly, so we wait until a "sentry chunk" is generated.
+The mod then checks the resource & tree count and if it was deemed to have potential, a screenshot is made.
 
 Unfortuantely you cannot delete a surface, so that would leak resources and not last very long.
 So the mod automatically saves and loads the game to avoid that.
