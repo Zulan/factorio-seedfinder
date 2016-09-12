@@ -50,6 +50,9 @@ local function new_surface()
     end
     
     local settings = deepcopy(game.surfaces['nauvis'].map_gen_settings)
+    if (index_current > #seeds) then
+        game.done_but_dont_know_how_to_end_the_game_properly()
+    end
     settings['seed'] = seeds[index_current]
     
     local surface = game.create_surface('test' .. index_current, settings)
