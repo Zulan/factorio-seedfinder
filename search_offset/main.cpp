@@ -36,7 +36,7 @@ void find_seed(coords target)
 {
     std::cout << "seeds = {\n";
     // Note. This weird random generator is only different for every second seed
-    for (uint32_t seed = 0; seed != -1; seed += 2)
+    for (uint32_t seed = 0; seed != -2; seed += 2)
     {
         auto c = get_shift(seed);
         if (c == target) {
