@@ -7,10 +7,7 @@ local Logger = {prefix='log_'}
 Logger.__index = Logger
 
 function Logger:log(str)
-  local run_time_s = math.floor(game.tick/60)
-  local run_time_minutes = math.floor(run_time_s/60)
-  local run_time_hours = math.floor(run_time_minutes/60)
-  self.log_buffer[#self.log_buffer + 1] = string.format("%02d:%02d:%02d: %s\r\n", run_time_hours, run_time_minutes % 60, run_time_s % 60, str)
+  self.log_buffer[#self.log_buffer + 1] = str
 end
 
 function Logger:dump(file_name)
