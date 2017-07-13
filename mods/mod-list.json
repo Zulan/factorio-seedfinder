@@ -1,0 +1,12 @@
+{
+  "mods": [
+    {
+      "name": "base",
+      "enabled": true
+    },
+    {
+      "name": "seedfinder",
+      "enabled": true
+    }
+  ]
+}

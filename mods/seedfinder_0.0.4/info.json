@@ -1,7 +1,7 @@
 {
-  "name": "seedmapper",
-  "version": "0.0.2",
-  "title": "Seed Mapper",
+  "name": "seedfinder",
+  "version": "0.0.4",
+  "title": "Seed Finder",
   "author": "Zulan",
   "homepage": "https://github.com/Zulan/factorio-seedfinder",
   "contact": "factoriomods@zulan.net",
