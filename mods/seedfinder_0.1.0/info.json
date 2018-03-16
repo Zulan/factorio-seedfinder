@@ -1,11 +1,11 @@
 {
   "name": "seedfinder",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "title": "Seed Finder",
   "author": "Zulan",
   "homepage": "https://github.com/Zulan/factorio-seedfinder",
   "contact": "factoriomods@zulan.net",
   "description": "Map the starting area for a number of given seeds",
   "dependencies": [],
-  "factorio_version": "0.15"
+  "factorio_version": "0.16"
 }
