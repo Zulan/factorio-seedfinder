@@ -1,5 +1,12 @@
-require 'config'
-require 'seeds'
+require('config')
+require('inspect')
+require("mod-gui")
+
+if (use_seed_list) then
+    require 'seed_list'
+else
+    require 'seed_start'
+end
 
 local function deepcopy(orig)
     local orig_type = type(orig)
@@ -18,15 +25,18 @@ end
 
 surface_current = nil
 
-if (use_seeds) then
+if (use_seed_list) then
     seed_index = 1
 else
-    seed_current = -1
+    seed_current = seed_start
 end
 
 local function get_seed()
-    if (use_seeds) then
-        seed = seeds[seed_index]
+    if (use_seed_list) then
+        seed = seed_list[seed_index]
+        if (frame_label) then
+            frame_label.caption = string.format("seed %d of %d : %d", seed_index, #seed_list, seed)
+        end
         seed_index = seed_index + 1
         return seed
     else
@@ -50,8 +60,9 @@ rocks_scan_box = {{-rocks_scan_size, -rocks_scan_size}, {rocks_scan_size, rocks_
 count_box = scan_box
 tock_tick = -1
 surface_current_checked = false
-file_csv = file_prefix .. ".csv"
-file_log = file_prefix .. ".log"
+file_prefix = "seedfinder"
+
+auto_cycle = false
 
 local function player()
     return game.players[1]
@@ -71,9 +82,8 @@ end
 local function new_surface()
     seed = get_seed()
     write_log("creating surface: test" .. seed)
-    local settings = deepcopy(game.surfaces['nauvis'].map_gen_settings)
-    settings['seed'] = seed
-    local surface = game.create_surface('test' .. seed, settings)
+    map_gen_settings['seed'] = seed
+    local surface = game.create_surface('test' .. seed, map_gen_settings)
 
     surface.request_to_generate_chunks(pos, scan_chunks+1)
 
@@ -87,11 +97,9 @@ local function new_surface()
     return surface
 end
 
-local inspect = require('inspect')
-
 local function check_surface(surface)
     write_log("checking surface: " .. surface.name .. " at tick " .. game.tick)
-    write_log(inspect(surface.map_gen_settings))
+    -- write_log(inspect(surface.map_gen_settings))
     local seed = surface.map_gen_settings.seed
     -- I think the 'red-desert-rock-huge' only remains in translation files, but let's be sure
     local coal_rocks = surface.count_entities_filtered{area=rocks_scan_box, name="rock-huge"} + surface.count_entities_filtered{area=count_box, name="red-desert-rock-huge"}
@@ -115,35 +123,68 @@ end
 
 initialized = false
 
-local function init()
-    if (use_seeds) then
-        seed_current = game.surfaces['nauvis'].map_gen_settings['seed']
-    end
-    file_csv = file_prefix .. "-" .. seed_current .. ".csv"
-    file_log = file_prefix .. "-" .. seed_current .. ".log"
 
+local function init()
+    if (use_seed_list) then
+        if player() then
+            local frame_flow = mod_gui.get_frame_flow(player())
+            local frame = frame_flow.add{
+                type = "frame",
+                name = "seedfinder-frame",
+                direction = "vertical"
+            }
+            frame_label = frame.add{
+                type = "label",
+                name = "seedfinder-label",
+                caption = ""
+            }
+            local config_frame = frame.add{
+                type = "button",
+                name = "seedfinder-next",
+                caption = "next seed"
+            }
+            auto_cycle = false
+        end
+    else
+        if  (seed_current == -1) then
+            seed_current = game.surfaces['nauvis'].map_gen_settings['seed']
+        end
+        file_prefix = file_prefix .. "-" .. seed_current
+    end
+    file_csv = file_prefix .. ".csv"
+    file_log = file_prefix .. ".log"
+    
     write_log("initializing seed mapper")
     write_csv("seed,copper,iron,oil,trees,rocks")
+
     initialized = true
-    game.speed = 100
+    game.speed = 10
+end
+
+local function cycle()
+    game.delete_surface(surface_current)
+    surface_current = new_surface()            
 end
 
 local function start()
     surface_current = new_surface()
 end
 
-script.on_event({defines.events.on_tick, defines.events.on_chunk_generated} , function(event)
+script.on_event({defines.events.on_tick, defines.events.on_chunk_generated}, function(event)
     if not initialized then
         init()
         start()
     end
-    if event.name == defines.events.on_tick then
-        if game.tick == tock_tick then
-            game.delete_surface(surface_current)
-            surface_current = new_surface()            
-        end
+    if event.name == defines.events.on_tick and game.tick == tock_tick and auto_cycle then
+        cycle()
     end
     if not surface_current_checked and surface_current.is_chunk_generated(sentry_chunk_pos) then
         check_surface(surface_current)
+    end
+end)
+
+script.on_event({defines.events.on_gui_click}, function(event)
+    if (event.element.name == "seedfinder-next") then
+        cycle()
     end
 end)
