@@ -1,19 +1,22 @@
 resolution         = {x=3072,y=3072}
-zoom               = 1/4
-count_radius       = 192
-scan_chunks        = 6
-rocks_count_chunks = 3
+zoom               = 1/10
+scan_chunks        = 10
+rocks_count_chunks = 6
 file_prefix        = 'seedfinder'
 line_end           = "\r\n"
 
-iron_min       = 6000
-copper_min     = 4000
+iron_min       = 10000
+copper_min     = 8000
 trees_min      = 0
 trees_max      = 9999999
 oil_min        = 0
-coal_rocks_min = 3
+grass_min      = 0
+coal_min       = 0
+coal_rocks_min = 0
 
 use_seed_list = true
+no_gui = false154002394
+
 
 map_gen_settings =
 {

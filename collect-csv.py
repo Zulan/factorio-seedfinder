@@ -11,4 +11,4 @@ for path in sorted(glob('**/*.csv', recursive=True)):
         for row in reader:
             seeds.append(int(row[0]))
             
-print('seed_list = {' + seeds.join("'") + '}')
+print('seed_list = {' + ','.join([str(s) for s in seeds]) + '}')

@@ -52,8 +52,6 @@ scan_size = scan_chunks * chunk_size
 pos = {x,y}
 --sentry_chunk_pos = {-scan_chunks, -scan_chunks + 1}
 sentry_chunk_pos = {scan_chunks, scan_chunks}
-x_size = count_radius
-y_size = count_radius
 scan_box = {{-scan_size, -scan_size}, {scan_size, scan_size}}
 rocks_scan_size = rocks_count_chunks * chunk_size
 rocks_scan_box = {{-rocks_scan_size, -rocks_scan_size}, {rocks_scan_size, rocks_scan_size}}
@@ -62,7 +60,7 @@ tock_tick = -1
 surface_current_checked = false
 file_prefix = "seedfinder"
 
-auto_cycle = false
+auto_cycle = true
 
 local function player()
     return game.players[1]
@@ -106,12 +104,26 @@ local function check_surface(surface)
     local copper     = surface.count_entities_filtered{area=count_box, name="copper-ore"}
     local iron       = surface.count_entities_filtered{area=count_box, name="iron-ore"}
     local oil        = surface.count_entities_filtered{area=count_box, name="crude-oil"}
+    local coal       = surface.count_entities_filtered{area=count_box, name="coal"}
     -- Trees no longer interesting with tunable setting
-    -- local trees      = surface.count_entities_filtered{area=count_box, type="tree"}
-    write_log(string.format("copper: %05d, iron: %05d, oil: %03d, coal rocks: %03d", copper, iron, oil, coal_rocks))
-    if iron >= iron_min and copper >= copper_min and oil >= oil_min and coal_rocks >= coal_rocks_min then
-        write_csv(string.format("%07d,%05d,%05d,%03d,%03d", seed, copper, iron, oil, coal_rocks))
-        local name = string.format("map.s%07d-%05d-%05d-%03d-%03d.png", seed, copper, iron, oil, coal_rocks)
+    local trees      = surface.count_entities_filtered{area=count_box, type="tree"}
+    local grass      = surface.count_tiles_filtered{area=count_box, name="grass-1"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="grass-2"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="grass-3"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="grass-4"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-1"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-2"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-3"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-4"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-5"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-6"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-7"}
+    grass = grass + surface.count_tiles_filtered{area=count_box, name="dry-dirt"}
+    grass_pc = grass / (scan_size * 2 * scan_size * 2)
+    write_log(string.format("copper: %05d, iron: %05d, coal: %05d, oil: %03d, coal rocks: %03d, trees: %06d, grass: %f", copper, iron, coal, oil, coal_rocks, trees, grass_pc))
+    if iron >= iron_min and copper >= copper_min and oil >= oil_min and coal >= coal_min and coal_rocks >= coal_rocks_min and grass_pc >= grass_min then
+        write_csv(string.format("%07d,%05d,%05d,%05d,%03d,%03d,%06d,%f", seed, copper, iron, coal, oil, coal_rocks, trees, grass_pc))
+        local name = string.format("map.s%07d-%05d-%05d-%03d-%03d-%06d-%f.png", seed, copper, iron, oil, coal_rocks, trees, grass_pc)
         if player() then
             game.take_screenshot{resolution=resolution, zoom=zoom, path=name}
         end
@@ -126,7 +138,7 @@ initialized = false
 
 local function init()
     if (use_seed_list) then
-        if player() then
+        if player() and not no_gui then
             local frame_flow = mod_gui.get_frame_flow(player())
             local frame = frame_flow.add{
                 type = "frame",
@@ -155,7 +167,7 @@ local function init()
     file_log = file_prefix .. ".log"
     
     write_log("initializing seed mapper")
-    write_csv("seed,copper,iron,oil,trees,rocks")
+    write_csv("seed,copper,iron,coal,oil,coal_rocks,rocks,trees,grass")
 
     initialized = true
     game.speed = 10

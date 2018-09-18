@@ -1,3 +1,3 @@
 #!/bin/bash
 
-seq -w 10 15 | parallel ./single.sh # > /dev/null
+seq -w 0 3 | parallel ./single.sh # > /dev/null

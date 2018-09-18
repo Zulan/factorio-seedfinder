@@ -1,4 +1,4 @@
-; version=2
+; version=3
 ; This is INI file: https://en.wikipedia.org/wiki/INI_file#Format 
 ; Semicolons (;) at the beginning of the line indicate a comment. Comment lines are ignored.
 [path]
@@ -12,17 +12,18 @@ locale=
 ; Options: true, false
 ; verbose-logging=false
 
-; tooltip-delay=0.040000
+; Options: true, false
+; log-saving-statistics=false
 
-; output-console-delay=1200
-
-; autosave-interval=2
+; autosave-interval=5
 
 ; autosave-slots=3
 
 ; minimum-latency-in-multiplayer=0
 
 ; port=34197
+
+; max-map-preview-chunk-side=64
 
 ; proxy=
 
@@ -37,31 +38,7 @@ locale=
 ; enable-experimental-updates=false
 
 ; Options: true, false
-; force-default-logistic-filter-count-to-one=false
-
-; Options: true, false
-; show-tips-and-tricks=true
-
-; Options: true, false
-; show-tutorial-notifications=true
-
-; Options: true, false
-; autosort-inventory=true
-
-; Options: true, false
-; research-finished-stops-game=true
-
-; Options: true, false
-; use-item-groups=true
-
-; Options: true, false
-; use-item-subgroups=true
-
-; Options: true, false
 ; enable-new-mods=true
-
-; Options: true, false
-; use-version-filter-in-browse-games-gui=true
 
 ; Options: true, false
 ; use-mod-settings-per-save=true
@@ -69,9 +46,217 @@ locale=
 ; Options: true, false
 ; disable-minimal-mode=false
 
+; Options: true, false
+; enable-razer-chroma-support=true
+
+; Options: true, false
+; enable-crash-log-uploading=true
+
+; Options: true, false
+; enable-heap-validation=true
+
+; Options: true, false
+; non-blocking-saving=false
+
+; Options: fast, maximum
+; multiplayer-compression-level=fast
+
+; Options: none, fast, maximum
+; autosave-compression-level=fast
+
+
+[controls]
+; move-up=W
+
+; move-right=D
+
+; move-left=A
+
+; move-down=S
+
+; open-character-gui=E
+
+; open-technology-gui=T
+
+; close-gui=E
+
+; mine=mouse-button-2
+
+; build=mouse-button-1
+
+; build-ghost=SHIFT + mouse-button-1
+
+; remove-pole-cables=SHIFT + mouse-button-1
+
+; copy-entity-settings=SHIFT + mouse-button-2
+
+; paste-entity-settings=SHIFT + mouse-button-1
+
+; select-for-blueprint=mouse-button-1
+
+; select-for-cancel-deconstruct=SHIFT + mouse-button-1
+
+; open-gui=mouse-button-1
+
+; show-info=ALT_L
+
+; next-weapon=TAB
+
+; pick-item=mouse-button-1
+
+; stack-transfer=SHIFT + mouse-button-1
+
+; inventory-transfer=CONTROL + mouse-button-1
+
+; fast-entity-transfer=CONTROL + mouse-button-1
+
+; toggle-filter=mouse-button-3
+
+; quickbar-1=1
+
+; quickbar-2=2
+
+; quickbar-3=3
+
+; quickbar-4=4
+
+; quickbar-5=5
+
+; cursor-split=mouse-button-2
+
+; stack-split=SHIFT + mouse-button-2
+
+; inventory-split=CONTROL + mouse-button-2
+
+; fast-entity-split=CONTROL + mouse-button-2
+
+; change-active-quickbar=X
+
+; open-item=mouse-button-2
+
+; quickbar-6=SHIFT + 1
+
+; quickbar-7=SHIFT + 2
+
+; quickbar-8=SHIFT + 3
+
+; quickbar-9=SHIFT + 4
+
+; quickbar-10=SHIFT + 5
+
+; clean-cursor=Q
+
+; smart-pipette=Q
+
+; drop-cursor=Z
+
+; rotate=R
+
+; reverse-rotate=SHIFT + R
+
+; pick-items=F
+
+; shoot-enemy=SPACE
+
+; shoot-selected=C
+
+; toggle-driving=RETURN
+
+; cycle-blueprint-forwards=SHIFT + mouse-wheel-up
+
+; cycle-blueprint-backwards=SHIFT + mouse-wheel-down
+
+; zoom-in=mouse-wheel-up
+
+; zoom-out=mouse-wheel-down
+
+; alt-zoom-in=mouse-wheel-up
+
+; alt-zoom-out=mouse-wheel-down
+
+; toggle-menu=ESCAPE
+
+; production-statistics=P
+
+; kill-statistics=K
+
+; logistic-networks=L
+
+; toggle-map=M
+
+; toggle-blueprint-library=B
+
+; confirm-message=TAB
+
+; connect-train=G
+
+; disconnect-train=V
+
+; pause-game=SHIFT + SPACE
+
+; larger-terrain-building-area=KP_ADD
+
+; smaller-terrain-building-area=KP_SUBTRACT
+
+; focus-search=CONTROL + F
+
+; previous-technology=BACKSPACE
+
+; toggle-console=GRAVE
+
+; drag-map=mouse-button-1
+
+; place-tag=mouse-button-2
+
+; toggle-tips-and-tricks=SHIFT + SLASH
+
+; craft=mouse-button-1
+
+; craft-5=mouse-button-2
+
+; craft-all=SHIFT + mouse-button-1
+
+; cancel-craft=mouse-button-1
+
+; cancel-craft-5=mouse-button-2
+
+; cancel-craft-all=SHIFT + mouse-button-1
+
+; editor-tool-primary-action=mouse-button-1
+
+; editor-tool-secondary-action=mouse-button-2
+
+; editor-remove-entity=X
+
+; editor-edit-entity-details=T
+
+; editor-show-all-difficulties=F8
+
+; editor-show-easy-difficulty=F9
+
+; editor-show-normal-difficulty=F10
+
+; editor-show-hard-difficulty=F11
+
+; debug-toggle-atlas-gui=F3
+
+; debug-toggle-autoplace-gui=F2
+
+; debug-toggle-debug-settings=F4
+
+; debug-toggle-basic=F5
+
+; debug-toggle-detailed=F6
+
+; debug-toggle-full=F7
+
+; debug-reset-zoom=F9
+
+; toggle-gui-debug=CONTROL + F5
+
 
 [sound]
-; master-volume=0.600000
+master-volume=0.000000
 
 ; music-volume=0.400000
 
@@ -139,6 +324,9 @@ locale=
 ; show-detailed-info=basic
 
 ; Options: always, basic, detailed, full, never
+; show-tile-properties-in-detailed-info=basic
+
+; Options: always, basic, detailed, full, never
 ; show-time-usage=basic
 
 ; Options: always, basic, detailed, full, never
@@ -151,6 +339,9 @@ locale=
 ; show-multiplayer-statistics=basic
 
 ; Options: always, basic, detailed, full, never
+; show-multiplayer-selection-rectangles=detailed
+
+; Options: always, basic, detailed, full, never
 ; show-tile-grid=full
 
 ; Options: always, basic, detailed, full, never
@@ -161,6 +352,9 @@ locale=
 
 ; Options: always, basic, detailed, full, never
 ; show-paths=full
+
+; Options: always, basic, detailed, full, never
+; show-path-requests=full
 
 ; Options: always, basic, detailed, full, never
 ; show-next-waypoint-bb=full
@@ -193,13 +387,10 @@ locale=
 ; show-rail-connections=detailed
 
 ; Options: always, basic, detailed, full, never
-; show-rail-segments=detailed
-
-; Options: always, basic, detailed, full, never
-; show-rail-blocks=detailed
-
-; Options: always, basic, detailed, full, never
 ; show-rail-joints=detailed
+
+; Options: always, basic, detailed, full, never
+; show-rail-signal-states=full
 
 ; Options: always, basic, detailed, full, never
 ; show-train-stop-point=detailed
@@ -224,6 +415,12 @@ locale=
 
 ; Options: always, basic, detailed, full, never
 ; show-wakeup-lists=detailed
+
+; Options: always, basic, detailed, full, never
+; show-transport-lines=detailed
+
+; Options: always, basic, detailed, full, never
+; show-transport-line-gaps=detailed
 
 ; Options: always, basic, detailed, full, never
 ; show-pollution-values=full
@@ -256,10 +453,10 @@ locale=
 ; show-tile-correction-previews=never
 
 ; Options: always, basic, detailed, full, never
-; show-fluid-box-fluid-info=basic
+; show-fluid-box-fluid-info=detailed
 
 ; Options: always, basic, detailed, full, never
-; show-environment-sound-info=basic
+; show-environment-sound-info=detailed
 
 ; Options: always, basic, detailed, full, never
 ; show-logistic-robot-targets=full
@@ -272,6 +469,12 @@ locale=
 
 ; Options: always, basic, detailed, full, never
 ; show-map-generator-info=full
+
+; Options: always, basic, detailed, full, never
+; show-decorative-names=full
+
+; Options: always, basic, detailed, full, never
+; allow-increased-zoom=full
 
 
 [multiplayer-lobby]
@@ -308,39 +511,56 @@ locale=
 ; autosave-only-on-server=true
 
 ; Options: true, false
+; non-blocking-saving=true
+
+; Options: true, false
 ; verify-user-identity=true
 
 
-[graphics]
-; lights-render-quality=0.250000
-
-; custom-ui-scale=1.000000
-
-; multisampling-level=0
-
-; preferred-screen-index=255
-
-; screenshots-queue-size=10
-
-; screenshots-threads-count=1
-
-; debug-font-size=18
-
-; max-texture-size=0
-
-; max-threads=8
-
-; Options: high, normal, low, very-low
-; graphics-quality=normal
-
-; Options: true, false
-; full-screen=true
-
+[interface]
 ; Options: true, false
 ; system-ui-scale=true
 
+; custom-ui-scale=1.000000
+
+; tooltip-delay=0.040000
+
+; output-console-delay=1200
+
+; train-stop-label-angle=0.085526
+
+; Options: true, false
+; force-default-logistic-filter-count-to-one=false
+
+; Options: true, false
+; autosort-inventory=true
+
+; Options: true, false
+; research-finished-stops-game=false
+
+; Options: true, false
+; use-item-groups=true
+
+; Options: true, false
+; use-item-subgroups=true
+
+; Options: true, false
+; use-version-filter-in-browse-games-gui=true
+
+; Options: true, false
+; play-sound-for-chat-messages=true
+
+; Options: true, false
+; fuzzy-search-enabled=false
+
 ; Options: true, false
 ; show-minimap=true
+
+; Options: true, false
+show-tips-and-tricks=false
+
+; Options: true, false
+; show-tutorial-notifications=true
 
 ; Options: true, false
 ; show-turret-radius-when-blueprinting=false
@@ -349,22 +569,16 @@ locale=
 ; show-item-labels-in-cursor=true
 
 ; Options: true, false
+; show-mod-owners-in-tooltips=true
+
+; Options: true, false
+; show-rail-block-visualization=true
+
+; Options: true, false
+; show-missing-logistic-network-icon=true
+
+; Options: true, false
 ; show-grid-when-paused=true
-
-; Options: true, false
-; show-smoke=true
-
-; Options: true, false
-; show-clouds=true
-
-; Options: true, false
-; show-decoratives=true
-
-; Options: true, false
-; show-item-shadows=true
-
-; Options: true, false
-; show-inserter-shadows=true
 
 ; Options: true, false
 ; show-inserter-arrows-when-selected=true
@@ -381,11 +595,60 @@ locale=
 ; Options: true, false
 ; show-combinator-settings-when-detailed-info-is-on=false
 
+; debug-font-size=18
+
+
+[graphics]
+; lights-render-quality=0.250000
+
+; multisampling-level=0
+
+; preferred-screen-index=255
+
+; screenshots-queue-size=10
+
+; screenshots-threads-count=1
+
+; cache-sprite-atlas-count=1
+
+; max-texture-size=0
+
+; max-secondary-texture-size=8192
+
+; max-threads=8
+
+; Options: high, normal, low, very-low
+; graphics-quality=high
+
+; Options: true, false
+full-screen=false
+
+; Options: true, false
+show-smoke=false
+
+; Options: true, false
+show-clouds=false
+
+; Options: true, false
+; show-decoratives=true
+
+; Options: true, false
+show-item-shadows=false
+
+; Options: true, false
+; show-inserter-shadows=true
+
 ; Options: true, false
 ; force-opengl=false
 
 ; Options: true, false
 ; cache-sprite-atlas=false
+
+; Options: true, false
+; texture-streaming=false
+
+; Options: true, false
+; thread-sprite-loading=true
 
 ; Options: true, false
 ; v-sync=true
@@ -403,18 +666,32 @@ locale=
 ; atlas-specialization=true
 
 ; Options: true, false
+; separate-lower-object-atlas=false
+
+; Options: true, false
+; atlas-packing-optimization=true
+
+; Options: true, false
+; low-quality-sprite-rotation=false
+
+; Options: true, false
 ; skip-vram-detection=false
+
+; Alpha masks are loaded as single channel textures. This may cause problems on some configurations.
+; 
+; Options: true, false
+; single-channel-textures=true
+
+; Options: true, false
+; halting-rending-when-minimized=true
 
 ; Options: true, false
 ; runtime-sprite-reload=false
 
 ; Options: all, high, medium, low
-; video-memory-usage=high
+; video-memory-usage=all
 
 ; Options: false, true, auto
 ; texture-compression=false
-
-; Options: false, true, auto
-; disable-fma3=auto
 
 
