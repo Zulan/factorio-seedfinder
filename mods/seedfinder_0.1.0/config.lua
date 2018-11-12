@@ -1,28 +1,28 @@
-resolution         = {x=3072,y=3072}
-zoom               = 1/10
-scan_chunks        = 10
-rocks_count_chunks = 6
+resolution         = {x=1200,y=1200}
+zoom               = 1/12
+scan_chunks        = 6
+rocks_count_chunks = 4
 file_prefix        = 'seedfinder'
 line_end           = "\r\n"
 
-iron_min       = 10000
-copper_min     = 8000
+iron_min       = 0
+copper_min     = 0
 trees_min      = 0
 trees_max      = 9999999
-oil_min        = 0
+oil_min        = 5000
 grass_min      = 0
 coal_min       = 0
-coal_rocks_min = 0
+coal_rocks_min = 2
 
 use_seed_list = true
-no_gui = false154002394
+no_gui = true
 
 
 map_gen_settings =
 {
   autoplace_controls = {
     coal = {
-      frequency = "low",
+      frequency = "normal",
       richness = "very-high",
       size = "very-high"
     },
@@ -32,7 +32,7 @@ map_gen_settings =
       size = "very-high"
     },
     ["crude-oil"] = {
-      frequency = "high",
+      frequency = "very-high",
       richness = "very-high",
       size = "very-high"
     },
@@ -54,7 +54,7 @@ map_gen_settings =
     grass = {
       frequency = "normal",
       richness = "normal",
-      size = "none"
+      size = "very-high"
     },
     ["iron-ore"] = {
       frequency = "very-low",
@@ -64,7 +64,7 @@ map_gen_settings =
     sand = {
       frequency = "very-high",
       richness = "normal",
-      size = "very-low"
+      size = "none"
     },
     stone = {
       frequency = "very-high",

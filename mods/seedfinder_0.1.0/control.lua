@@ -103,27 +103,21 @@ local function check_surface(surface)
     local coal_rocks = surface.count_entities_filtered{area=rocks_scan_box, name="rock-huge"} + surface.count_entities_filtered{area=count_box, name="red-desert-rock-huge"}
     local copper     = surface.count_entities_filtered{area=count_box, name="copper-ore"}
     local iron       = surface.count_entities_filtered{area=count_box, name="iron-ore"}
-    local oil        = surface.count_entities_filtered{area=count_box, name="crude-oil"}
+    --local oil        = surface.count_entities_filtered{area=count_box, name="crude-oil"}
+    local oil = 0
+    local oil_entities = surface.find_entities_filtered{area=count_box, name="crude-oil"}
+    for _, entity in ipairs(oil_entities) do
+        oil = oil + entity.amount / 3000
+    end
+    
     local coal       = surface.count_entities_filtered{area=count_box, name="coal"}
     -- Trees no longer interesting with tunable setting
     local trees      = surface.count_entities_filtered{area=count_box, type="tree"}
-    local grass      = surface.count_tiles_filtered{area=count_box, name="grass-1"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="grass-2"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="grass-3"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="grass-4"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-1"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-2"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-3"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-4"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-5"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-6"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dirt-7"}
-    grass = grass + surface.count_tiles_filtered{area=count_box, name="dry-dirt"}
-    grass_pc = grass / (scan_size * 2 * scan_size * 2)
-    write_log(string.format("copper: %05d, iron: %05d, coal: %05d, oil: %03d, coal rocks: %03d, trees: %06d, grass: %f", copper, iron, coal, oil, coal_rocks, trees, grass_pc))
-    if iron >= iron_min and copper >= copper_min and oil >= oil_min and coal >= coal_min and coal_rocks >= coal_rocks_min and grass_pc >= grass_min then
-        write_csv(string.format("%07d,%05d,%05d,%05d,%03d,%03d,%06d,%f", seed, copper, iron, coal, oil, coal_rocks, trees, grass_pc))
-        local name = string.format("map.s%07d-%05d-%05d-%03d-%03d-%06d-%f.png", seed, copper, iron, oil, coal_rocks, trees, grass_pc)
+
+    write_log(string.format("copper: %05d, iron: %05d, coal: %05d, oil: %03d, coal rocks: %03d, trees: %06d", copper, iron, coal, oil, coal_rocks, trees))
+    if iron >= iron_min and copper >= copper_min and oil >= oil_min and coal >= coal_min and coal_rocks >= coal_rocks_min then
+        write_csv(string.format("%07d,%05d,%05d,%05d,%03d,%03d,%06d", seed, copper, iron, coal, oil, coal_rocks, trees))
+        local name = string.format("map.s%07d-%05d-%05d-%05d-%03d-%06d.png", seed, copper, iron, oil, coal_rocks, trees)
         if player() then
             game.take_screenshot{resolution=resolution, zoom=zoom, path=name}
         end
